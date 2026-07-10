@@ -1,0 +1,31 @@
+# Bombus AL pipeline — pinned dependencies (Python 3.8.15)
+# Exact versions used for the published analysis. For a byte-exact environment
+# use requirements-freeze.txt (full 169-package freeze).
+
+# --- core image processing ---
+numpy==1.24.4
+scipy==1.10.1
+scikit-image==0.21.0        # watershed, peak_local_max, threshold_otsu — version-sensitive
+tifffile==2023.7.10
+opencv-python==4.12.0.88
+
+# --- AL convex-hull volume ---
+trimesh==4.11.0
+
+# --- 2D rendering for the risk pillar (needs a headless GL backend; see README) ---
+pyvista==0.44.2
+vtk==9.3.1
+
+# --- risk-score model ---
+torch==2.4.1                # +cu121 in the original env; CPU wheel is fine for inference
+scikit-learn==1.3.2         # StandardScaler; note RidgeCV API differs across versions
+joblib==1.4.2
+
+# --- data handling / io / plotting ---
+pandas==2.0.3
+openpyxl==3.1.5             # read/write .xlsx metadata and results
+h5py==3.11.0
+matplotlib==3.7.5
+
+# --- optional: interactive mask curation only (not needed to reproduce numbers) ---
+# napari==0.4.19.post1

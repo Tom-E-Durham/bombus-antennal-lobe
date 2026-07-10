@@ -1,0 +1,55 @@
+# Pipeline configuration. Edit `paths.data_root` to point at your dataset; the parameters below
+# reproduce the results in the paper and normally should not be changed.
+
+paths:
+  # Root of the confocal dataset: <data_root>/<species>/<sample>/{AL1,AL2,wholebrain}.tif
+  data_root: /path/to/confocal
+  # Left null: results/metadata/models are resolved relative to this repository.
+  project_root: null
+  metadata_dir: metadata          # information.csv, ConfocalFileParameters.xlsx, render_angles.csv
+  results_dir: results            # intermediate and final result tables
+  models_dir: models              # trained risk-score model + scaler
+
+species: [terrestris, pascuorum, pratorum, lapidarius, hypnorum, lucorum]
+
+# --- Antennal-lobe glomeruli segmentation (marker-controlled 3D watershed) ---
+# Per-sample contrast percentiles, threshold_factor, peak_min_distance and distance_threshold are read
+# from each cache_AL*/parameters.json; the values here are the study-wide constants.
+al_segmentation:
+  global_mean: 5685.8            # z-score standardisation
+  global_std: 8127.3
+  gaussian_sigma: 0.5
+  distance_power: 2.5            # distance transform ** distance_power
+  elevation_alpha: 0.6          # blend weight between gradient and distance in the elevation map
+  elevation_power: 1.3
+  watershed_min_object_size: 1000
+
+# --- Antennal-lobe volume (convex hull of the segmented glomeruli) ---
+convex_volume:
+  voxel_pitch: 1.0              # isotropic voxel space for the hull; scaled to um^3 afterwards
+
+# --- Whole-brain volume ---
+wholebrain:
+  global_mean: 7.4
+  global_std: 26.5
+  lower_percentile: 0           # full-range contrast stretch
+  upper_percentile: 100
+  gaussian_sigma: 0.5
+  threshold_factor: 0.2         # Otsu threshold * threshold_factor
+  closing_kernel_size: 9        # cube kernel; closes ring/donut gaps
+  opening_kernel_size: 3        # cube kernel
+  fill_holes_iterations: 2
+  cc_min_volume: 100000         # drop connected components smaller than this
+  exclude_samples: [B471]
+
+# --- 2D renders for the quality/risk pillar ---
+rendering:
+  photo_num: 50                 # 50 views -> fix_renders_50_<AL> per sample
+  random_seed: 12345            # used only if metadata/render_angles.csv is absent
+
+# --- Frequency-domain features + risk score ---
+risk_score:
+  crop_size: 400               # central crop of each render before the FFT
+  hfr_thresholds: [0.15, 0.20, 0.25]
+  mlp_seed: 999
+  cv_random_state: 123

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.ipynb_checkpoints/
+
+# Environments
+venv/
+insect_venv/
+.venv/
+
+# Large image data (deposited separately)
+*.tif
+*.tiff
+*.h5
+*.nrrd
+*.nii
+
+# Run logs
+results/batch_logs/
+*.log
+
+# Internal working notes (not part of the release)
+docs/
+archive/
+
+# OS
+.DS_Store
