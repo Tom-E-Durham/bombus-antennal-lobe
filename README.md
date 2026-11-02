@@ -82,9 +82,14 @@ pipeline/       numbered stage scripts
 metadata/       information.csv, ConfocalFileParameters.xlsx, render_angles.csv
 models/         trained risk-score model + scaler
 results/        result tables
+figure_source/  Excel source data for the quantitative figures
 config.yaml     paths and parameters
 run_all.py      run the full pipeline
 ```
+
+## Source Data
+
+All numerical source data underlying the quantitative figures presented in the accompanying paper are provided as Excel (.xlsx) files in the `figure_source/` directory. These files contain the data necessary to examine the reported measurements, reproduce the quantitative figures and independently evaluate the findings. The raw confocal and electron microscopy image stacks used in the image-analysis pipeline are not included in this repository due to their large file sizes but are available from the authors upon reasonable request.
 
 ## Citation
 
